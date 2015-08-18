@@ -1,0 +1,33 @@
+local: &local
+  adapter: postgresql
+  template: template0
+  encoding: utf8
+  pool: 10
+  host: <%= ENV['DATABASE_HOST'] %>
+  username: <%= ENV['DATABASE_USERNAME'] %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>
+
+server: &server
+  adapter: postgresql
+  template: template0
+  encoding: utf8
+  pool: 20
+  host: <%= ENV['DATABASE_HOST'] %>
+  username: <%= ENV['DATABASE_USERNAME'] %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>
+
+development:
+  <<: *local
+  database: rankit_development
+
+test:
+  <<: *local
+  database: rankit_test
+
+sandbox:
+  <<: *server
+  database: rankit_sandbox
+
+production:
+  <<: *server
+  database: rankit_production
