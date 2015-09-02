@@ -1,0 +1,10 @@
+<%= form_for @match do |f| %>
+  <fieldset>
+    <%= f.select :home_player_id, options_for_select(@players_options, @match.home_player_id), prompt: 'Mandante' %>
+    <%= f.number_field :home_player_score %>
+    <%= f.select :visitor_player_id, options_for_select(@players_options, @match.visitor_player_id), prompt: 'Visitante' %>
+    <%= f.number_field :visitor_player_score %>
+    <%= f.date_field :occurred_at, value: Time.now.strftime('%Y-%m-%d') %>
+    <%= f.submit %>
+  </fieldset>
+<% end %>

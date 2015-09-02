@@ -6,6 +6,7 @@ class CreateMatches < ActiveRecord::Migration
       t.integer :visitor_player_id
       t.integer :visitor_player_score
       t.integer :winner_id
+      t.datetime :occurred_at
 
       t.timestamps null: false
     end

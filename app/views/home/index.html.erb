@@ -1,0 +1,56 @@
+<%= flash_messages %>
+
+<%= render 'matches/form' %>
+
+<%= link_to 'Atualizar ranking', update_ranking_path %>
+
+<table width="100%">
+  <tr>
+    <th colspan="5">Últimas partidas</th>
+  </tr>
+  <% @matches_by_occurrence.each do |match_occurred_at, matches| %>
+    <tr>
+      <td colspan="5"><%= match_occurred_at.to_date %></td>
+    </tr>
+    <% matches.each do |match| %>
+      <tr>
+        <td align="right"><%= match.home_player.team_name %>(<%= match.home_player.name %>)</td>
+        <td align="center"><%= match.home_player_score %></td>
+        <td align="center"><%= match.visitor_player_score %></td>
+        <td><%= match.visitor_player.team_name %>(<%= match.visitor_player.name %>)</td>
+        <td><%= link_to 'Editar', edit_match_path(match) %></td>
+      </tr>
+    <% end %>
+  <% end %>
+</table>
+<hr>
+<table width="100%" border="1">
+  <tr>
+    <th>Posição</th>
+    <th>Time</th>
+    <th>Jogos</th>
+    <th>Vitórias</th>
+    <th>Empates</th>
+    <th>Derrotas</th>
+    <th>GP</th>
+    <th>GC</th>
+    <th>SG</th>
+    <th>Pontos</th>
+  </tr>
+
+  <% @rankings.each_with_index do |rank, index| %>
+    <% index = index + 1 %>
+    <tr>
+      <td><%= index %></td>
+      <td><%= rank.player.team_name %></td>
+      <td><%= rank.matches_count %></td>
+      <td><%= rank.matches_won %></td>
+      <td><%= rank.matches_draw %></td>
+      <td><%= rank.matches_lost %></td>
+      <td><%= rank.goals_pro %></td>
+      <td><%= rank.goals_against %></td>
+      <td><%= rank.goals_balance %></td>
+      <td><%= rank.total_points %></td>
+    </tr>
+  <% end %>
+</table>

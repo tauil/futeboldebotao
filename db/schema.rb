@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150819010718) do
+ActiveRecord::Schema.define(version: 20150902214740) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20150819010718) do
     t.integer  "visitor_player_id"
     t.integer  "visitor_player_score"
     t.integer  "winner_id"
+    t.datetime "occurred_at"
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
   end
@@ -45,11 +46,13 @@ ActiveRecord::Schema.define(version: 20150819010718) do
     t.integer  "matches_count"
     t.integer  "matches_won"
     t.integer  "matches_lost"
+    t.integer  "matches_draw"
     t.integer  "goals_pro"
     t.integer  "goals_against"
-    t.integer  "goals_difference"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.integer  "goals_balance"
+    t.integer  "total_points"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
   add_index "rankings", ["player_id"], name: "index_rankings_on_player_id", using: :btree
