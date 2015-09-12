@@ -3,7 +3,7 @@ class HomeController < ApplicationController
   def index
     @rankings = Ranking.order('total_points DESC')
     @match = Match.new
-    @matches_by_occurrence = Match.find_each.group_by(&:occurred_at)
+    @matches_by_occurrence = Match.all.order('occurred_at DESC, id ASC').group_by(&:occurred_at)
     @players_options = Player.find_each.collect {|p| [ p.name, p.id ] }
   end
 
