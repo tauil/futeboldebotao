@@ -1,56 +1,69 @@
-<%= flash_messages %>
+<h1>Futebol de Botão - Rio de Janeiro</h1>
 
-<%= render 'matches/form' %>
+<p>Peladinha de toda quinta no <a target="_new" href="http://www.botaofc.com.br/loja/">Botão FC</a> no <a target="_new" href="https://www.google.com.br/maps/place/Shopping+Tijuca+-+Av.+Maracan%C3%A3,+987+-+Tijuca,+Rio+de+Janeiro+-+RJ/@-22.9219385,-43.2353733,17z/data=!3m1!5s0x997e6bb2d3ec9f:0xb22ccd0fa557f160!4m7!1m4!3m3!1s0x997e6bb065c221:0xd18c16c53667dc84!2sShopping+Tijuca!3b1!3m1!1s0x997e6bb33b90db:0xdf835aeab427afd6?hl=en">Shopping Tijuca</a></p>
 
-<%= link_to 'Atualizar ranking', update_ranking_path %>
+<% if show? %>
+  <section class="ui segment">
+    <%= flash_messages %>
+    <%= render 'matches/form' %><br />
+    <p><%= link_to 'Atualizar ranking', update_ranking_path, class: 'ui primary button' %></p>
+  </section>
+<% end %>
 
-<table width="100%">
-  <tr>
-    <th colspan="5">Últimas partidas</th>
-  </tr>
-  <% @matches_by_occurrence.each do |match_occurred_at, matches| %>
+<table class="ui celled table">
+  <thead>
     <tr>
-      <td colspan="5"><%= match_occurred_at.to_date %></td>
+      <th>Posição</th>
+      <th>Time</th>
+      <th>Jogos</th>
+      <th>Vitórias</th>
+      <th>Empates</th>
+      <th>Derrotas</th>
+      <th>GP</th>
+      <th>GC</th>
+      <th>SG</th>
+      <th>Pontos</th>
     </tr>
-    <% matches.each do |match| %>
+  </thead>
+
+  <tbody>
+    <% @rankings.each_with_index do |rank, index| %>
+      <% index = index + 1 %>
       <tr>
-        <td align="right"><%= match.home_player.team_name %>(<%= match.home_player.name %>)</td>
-        <td align="center"><%= match.home_player_score %></td>
-        <td align="center"><%= match.visitor_player_score %></td>
-        <td><%= match.visitor_player.team_name %>(<%= match.visitor_player.name %>)</td>
-        <td><%= link_to 'Editar', edit_match_path(match) %></td>
+        <td><%= index %></td>
+        <td><%= rank.player.team_name %> (<%= rank.player.name %>)</td>
+        <td><%= rank.matches_count %></td>
+        <td><%= rank.matches_won %></td>
+        <td><%= rank.matches_draw %></td>
+        <td><%= rank.matches_lost %></td>
+        <td><%= rank.goals_pro %></td>
+        <td><%= rank.goals_against %></td>
+        <td><%= rank.goals_balance %></td>
+        <td><%= rank.total_points %></td>
       </tr>
     <% end %>
-  <% end %>
+  </tbody>
 </table>
-<hr>
-<table width="100%" border="1">
-  <tr>
-    <th>Posição</th>
-    <th>Time</th>
-    <th>Jogos</th>
-    <th>Vitórias</th>
-    <th>Empates</th>
-    <th>Derrotas</th>
-    <th>GP</th>
-    <th>GC</th>
-    <th>SG</th>
-    <th>Pontos</th>
-  </tr>
 
-  <% @rankings.each_with_index do |rank, index| %>
-    <% index = index + 1 %>
-    <tr>
-      <td><%= index %></td>
-      <td><%= rank.player.team_name %></td>
-      <td><%= rank.matches_count %></td>
-      <td><%= rank.matches_won %></td>
-      <td><%= rank.matches_draw %></td>
-      <td><%= rank.matches_lost %></td>
-      <td><%= rank.goals_pro %></td>
-      <td><%= rank.goals_against %></td>
-      <td><%= rank.goals_balance %></td>
-      <td><%= rank.total_points %></td>
-    </tr>
-  <% end %>
-</table>
+<h2 class="ui header">Últimas partidas</h2>
+
+<% @matches_by_occurrence.each do |match_occurred_at, matches| %>
+  <h3 class="ui header"><%= match_occurred_at.to_date %></h3>
+
+  <table class="ui celled table">
+    <tbody>
+    <% matches.each do |match| %>
+      <tr>
+        <td class="right aligned"><%= match.home_player.team_name %> (<%= match.home_player.name %>)</td>
+        <td class="center aligned"><%= match.home_player_score %></td>
+        <td class="center aligned">X</td>
+        <td class="center aligned"><%= match.visitor_player_score %></td>
+        <td><%= match.visitor_player.team_name %> (<%= match.visitor_player.name %>)</td>
+        <% if show? %>
+          <td class="center aligned"><%= link_to 'Editar', edit_match_path(match), class: 'ui button' %></td>
+        <% end %>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% end %>

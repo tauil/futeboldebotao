@@ -14,4 +14,8 @@ module ApplicationHelper
       end
     end.join.html_safe
   end
+
+  def show?
+    params[:dale_nega_veia].present?
+  end
 end

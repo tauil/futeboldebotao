@@ -1,10 +1,29 @@
-<%= form_for @match do |f| %>
+<%= form_for @match, html: {class: 'ui form'} do |f| %>
   <fieldset>
-    <%= f.select :home_player_id, options_for_select(@players_options, @match.home_player_id), prompt: 'Mandante' %>
-    <%= f.number_field :home_player_score %>
-    <%= f.select :visitor_player_id, options_for_select(@players_options, @match.visitor_player_id), prompt: 'Visitante' %>
-    <%= f.number_field :visitor_player_score %>
-    <%= f.date_field :occurred_at, value: Time.now.strftime('%Y-%m-%d') %>
-    <%= f.submit %>
+    <div class="five fields">
+      <div class="field">
+        <%= f.select :home_player_id, options_for_select(@players_options, @match.home_player_id), { prompt: 'Time mandante' }, { class: 'ui fluid dropdown' } %>
+      </div>
+
+      <div class="field">
+        <%= f.number_field :home_player_score %>
+      </div>
+
+      <div class="field">
+        <%= f.select :visitor_player_id, options_for_select(@players_options, @match.visitor_player_id), { prompt: 'Time visitante' }, { class: 'ui fluid dropdown' } %>
+      </div>
+
+      <div class="field">
+        <%= f.number_field :visitor_player_score %>
+      </div>
+
+      <div class="field">
+        <%= f.date_field :occurred_at, value: Time.now.strftime('%Y-%m-%d') %>
+      </div>
+    </div>
+
+    <div class="actions">
+      <%= f.submit class: 'ui button' %>
+    </div>
   </fieldset>
 <% end %>

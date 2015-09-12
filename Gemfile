@@ -12,6 +12,7 @@ gem 'turbolinks', '2.5.3'
 gem 'jbuilder', '2.0'
 gem 'responders', '2.1.0'
 gem 'sdoc', '0.4.0', group: :doc
+gem 'semantic-ui-sass', '2.1.3.0'
 
 group :development, :test do
   gem 'byebug', '5.0.0'
