@@ -17,6 +17,22 @@ class Ranking < ActiveRecord::Base
     true
   end
 
+  def utilization
+    (total_points.to_f / total_points_played.to_f) * 100
+  end
+
+  def matches_won_percent
+    matches_percent(matches_won)
+  end
+
+  def matches_draw_percent
+    matches_percent(matches_draw)
+  end
+
+  def matches_lost_percent
+    matches_percent(matches_lost)
+  end
+
   private
 
   def self.create_player_rank(player)
@@ -53,5 +69,13 @@ class Ranking < ActiveRecord::Base
 
   def self.points_by_draw(player_id)
     Match.draw(player_id).count * DRAW_POINT_MULTIPLIER
+  end
+
+  def total_points_played
+    matches_count * VICTORY_POINT_MULTIPLIER
+  end
+
+  def matches_percent(matches_to_calculate_count)
+    (matches_to_calculate_count.to_f * 100) / matches_count.to_f
   end
 end
