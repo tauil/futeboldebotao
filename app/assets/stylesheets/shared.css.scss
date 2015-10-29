@@ -3,3 +3,44 @@
 .ui.container {
   margin-top: 1em;
 }
+
+#results-table-container {
+  overflow: auto;
+
+  .table {
+    td {
+      white-space: nowrap;
+    }
+  }
+}
+
+.ui.form {
+  #home-info, #visitor-info {
+    width: 49%;
+    margin: 0 0 1em;
+  }
+
+  #home-info {
+    float: left;
+  }
+
+  #visitor-info {
+    float: right;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  select.ui.dropdown,
+  .ui.form input[type="number"],
+  .ui.form input[type="date"] {
+    height: 2.4em;
+    font-size: 1.8em;
+  }
+
+  .ui.button {
+    height: 2em;
+    font-size: 1.5em;
+    padding: 0.785714em 1.5em 1.785714em;
+    width: 100%;
+  }
+}
