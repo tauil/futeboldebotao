@@ -18,4 +18,9 @@ module ApplicationHelper
   def show?
     params[:dale_nega_veia].present?
   end
+
+  def day_bill(count)
+    total = count.to_f * Match::HALF_MATCH_PRICE
+    number_to_currency(total, locale: 'pt-BR')
+  end
 end

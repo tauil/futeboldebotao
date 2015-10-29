@@ -25,8 +25,18 @@ class Player < ActiveRecord::Base
       ActiveRecord::Base.connection.execute(arel_visitor_score_query.to_sql).to_a.first['visitor_total'].to_i
   }
 
+  scope :matches_by_occurrence, lambda { |player_id, occurred_at|
+    matches = Match.arel_table
+    Match.where(matches[:home_player_id].eq(player_id).or(matches[:visitor_player_id].eq(player_id))).
+      where(occurred_at: occurred_at)
+  }
+
   def matches
     matches_as_home + matches_as_visitor
+  end
+
+  def matches_by_occurrence(occurred_at)
+    matches_by_occurrence(id, occurred_at)
   end
 
   def goals_pro

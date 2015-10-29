@@ -12,6 +12,8 @@ class Match < ActiveRecord::Base
 
   before_validation :update_winner
 
+  HALF_MATCH_PRICE = 2.5
+
   def update_winner
     self.winner_id = winner_player_id unless draw?
   end
