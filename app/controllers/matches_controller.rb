@@ -18,7 +18,7 @@ class MatchesController < ApplicationController
     match = Match.new(match_params)
 
     if match.save
-      flash[:error] = 'Partida criada com sucesso.'
+      flash[:success] = 'Partida criada com sucesso.'
       redirect_to root_path
     else
       flash[:error] = 'Não foi possível criar a partida.'
@@ -31,7 +31,7 @@ class MatchesController < ApplicationController
     match.assign_attributes(match_params)
 
     if match.save
-      flash[:error] = 'Partida atualizada com sucesso.'
+      flash[:success] = 'Partida atualizada com sucesso.'
       redirect_to root_path
     else
       flash[:error] = 'Não foi possível atualizar a partida.'
@@ -43,7 +43,7 @@ class MatchesController < ApplicationController
     match = Match.find(params[:id])
 
     if match.destroy
-      flash[:error] = 'Partida apagada com sucesso.'
+      flash[:success] = 'Partida apagada com sucesso.'
       redirect_to root_path
     else
       flash[:error] = 'Não foi possível apagar essa partida.'
