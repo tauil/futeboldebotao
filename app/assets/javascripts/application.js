@@ -15,3 +15,9 @@
 //= require turbolinks
 //= require semantic-ui
 //= require_tree .
+
+$(document).ready(function() {
+  $(".icon.close").on("click", function() {
+    $(this).parents(".ui.flash.message").remove();
+  });
+});
