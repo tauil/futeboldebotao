@@ -1,6 +1,9 @@
 <table class="ui celled table unstackable">
   <thead>
     <tr>
+      <th colspan="11"><%= rankings.first.year.year %></th>
+    </tr>
+    <tr>
       <th>Posição</th>
       <th>Time</th>
       <th>Jogos</th>
@@ -22,14 +25,14 @@
         <td><%= index %></td>
         <td><%= rank.player.team_name %> (<%= rank.player.name %>)</td>
         <td><%= rank.matches_count %></td>
-        <td><%= rank.matches_won %> (<%= number_with_precision(rank.matches_won_percent, precision: 2) %>%)</td>
-        <td><%= rank.matches_draw %> (<%= number_with_precision(rank.matches_draw_percent, precision: 2) %>%)</td>
-        <td><%= rank.matches_lost %> (<%= number_with_precision(rank.matches_lost_percent, precision: 2) %>%)</td>
+        <td><%= rank.matches_won %> (<%= percent_for(rank.matches_won_percent) %>%)</td>
+        <td><%= rank.matches_draw %> (<%= percent_for(rank.matches_draw_percent) %>%)</td>
+        <td><%= rank.matches_lost %> (<%= percent_for(rank.matches_lost_percent) %>%)</td>
         <td><%= rank.goals_pro %></td>
         <td><%= rank.goals_against %></td>
         <td><%= rank.goals_balance %></td>
         <td><%= rank.total_points %></td>
-        <td><%= number_with_precision rank.utilization, precision: 2 %> %</td>
+        <td><%= percent_for(rank.utilization) %> %</td>
       </tr>
     <% end %>
   </tbody>
