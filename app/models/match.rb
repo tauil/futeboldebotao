@@ -14,10 +14,14 @@ class Match < ActiveRecord::Base
 
   scope :goals_pro, lambda { |player_id, year|
     matches = Arel::Table.new(:matches)
-    arel_home_score_query = matches.where(matches[:home_player_id].eq(player_id).and(matches_by_occurred_at_arel(year))).
-                            project(Arel::Nodes::NamedFunction.new("SUM", [ matches[:home_player_score] ], "home_total"))
-    arel_visitor_score_query = matches.where(matches[:visitor_player_id].eq(player_id).and(matches_by_occurred_at_arel(year))).
-                               project(Arel::Nodes::NamedFunction.new("SUM", [ matches[:visitor_player_score] ], "visitor_total"))
+
+    arel_home_score_query = matches.where(matches[:home_player_id].eq(player_id))
+    arel_home_score_query = matches.where(matches[:home_player_id].eq(player_id)).where(matches_by_occurred_at_arel(year)) unless all?(year)
+    arel_home_score_query = arel_home_score_query.project(Arel::Nodes::NamedFunction.new("SUM", [ matches[:home_player_score] ], "home_total"))
+
+    arel_visitor_score_query = matches.where(matches[:visitor_player_id].eq(player_id))
+    arel_visitor_score_query = matches.where(matches[:visitor_player_id].eq(player_id)).where(matches_by_occurred_at_arel(year)) unless all?(year)
+    arel_visitor_score_query = arel_visitor_score_query.project(Arel::Nodes::NamedFunction.new("SUM", [ matches[:visitor_player_score] ], "visitor_total"))
 
     ActiveRecord::Base.connection.execute(arel_home_score_query.to_sql).to_a.first['home_total'].to_i +
       ActiveRecord::Base.connection.execute(arel_visitor_score_query.to_sql).to_a.first['visitor_total'].to_i
@@ -25,10 +29,14 @@ class Match < ActiveRecord::Base
 
   scope :goals_against, lambda { |player_id, year|
     matches = Arel::Table.new(:matches)
-    arel_home_score_query = matches.where(matches[:home_player_id].eq(player_id).and(matches_by_occurred_at_arel(year))).
-                            project(Arel::Nodes::NamedFunction.new("SUM", [ matches[:visitor_player_score] ], "home_total"))
-    arel_visitor_score_query = matches.where(matches[:visitor_player_id].eq(player_id).and(matches_by_occurred_at_arel(year))).
-                               project(Arel::Nodes::NamedFunction.new("SUM", [ matches[:home_player_score] ], "visitor_total"))
+
+    arel_home_score_query = matches.where(matches[:home_player_id].eq(player_id))
+    arel_home_score_query = matches.where(matches[:home_player_id].eq(player_id).and(matches_by_occurred_at_arel(year))) unless all?(year)
+    arel_home_score_query = arel_home_score_query.project(Arel::Nodes::NamedFunction.new("SUM", [ matches[:visitor_player_score] ], "home_total"))
+
+    arel_visitor_score_query = matches.where(matches[:visitor_player_id].eq(player_id))
+    arel_visitor_score_query = matches.where(matches[:visitor_player_id].eq(player_id).and(matches_by_occurred_at_arel(year))) unless all?(year)
+    arel_visitor_score_query = arel_visitor_score_query.project(Arel::Nodes::NamedFunction.new("SUM", [ matches[:home_player_score] ], "visitor_total"))
 
     ActiveRecord::Base.connection.execute(arel_home_score_query.to_sql).to_a.first['home_total'].to_i +
       ActiveRecord::Base.connection.execute(arel_visitor_score_query.to_sql).to_a.first['visitor_total'].to_i
@@ -54,10 +62,14 @@ class Match < ActiveRecord::Base
   end
 
   def self.years_with_data
-    select(:occurred_at).map{|match| match.occurred_at.to_date.year }.uniq
+    select(:occurred_at).map{|match| match.occurred_at.to_date.year.to_s }.uniq
   end
 
   private
+
+  def self.all?(year)
+    year == 'all'
+  end
 
   def draw?
     self.home_player_score == self.visitor_player_score
@@ -72,6 +84,7 @@ class Match < ActiveRecord::Base
   end
 
   def self.matches_by_occurred_at_arel(year)
+    return if all?(year)
     Match.arel_table[:occurred_at].gteq(Date.parse("#{year}-1-1")).and(Match.arel_table[:occurred_at].lteq(Date.parse("#{year}-12-31")))
   end
 end

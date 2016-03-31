@@ -25,6 +25,7 @@ $(document).ready(function() {
     $(".ui.top.attached.tabular.menu .item").removeClass('active');
     $("#tab-2016").transition('hide');
     $("#tab-2015").transition('show');
+    $("#tab-all").transition('hide');
     $(this).parent().addClass('active');
   });
 
@@ -32,6 +33,15 @@ $(document).ready(function() {
     $(".ui.top.attached.tabular.menu .item").removeClass('active');
     $("#tab-2015").transition('hide');
     $("#tab-2016").transition('show');
+    $("#tab-all").transition('hide');
+    $(this).parent().addClass('active');
+  });
+
+  $("#trigger-tab-all").on('click', function() {
+    $(".ui.top.attached.tabular.menu .item").removeClass('active');
+    $("#tab-2015").transition('hide');
+    $("#tab-2016").transition('hide');
+    $("#tab-all").transition('show');
     $(this).parent().addClass('active');
   });
 });

@@ -4,11 +4,11 @@ class Ranking < ActiveRecord::Base
 
   belongs_to :player
 
-  scope :by_year, lambda { |year| where(year: Date.parse("#{year}-1-1")) }
+  scope :by_year, lambda { |year| where(year: year) }
 
   def self.updateit!
     Player.find_each do |player|
-      Match.years_with_data.each do |year|
+      matches_to_calculate.each do |year|
         player_rank = Ranking.by_year(year).where(player_id: player.id)
 
         if player_rank.count == 0
@@ -57,7 +57,7 @@ class Ranking < ActiveRecord::Base
       goals_against: Match.goals_against(player.id, year),
       goals_balance: Match.goals_balance(player.id, year),
       total_points: calculate_points(player.id, year),
-      year: Date.parse("#{year}-1-1") }
+      year: year }
   end
 
   def self.matches_count(player_id, year)
@@ -90,5 +90,9 @@ class Ranking < ActiveRecord::Base
 
   def matches_percent(matches_to_calculate_count)
     (matches_to_calculate_count.to_f * 100) / matches_count.to_f
+  end
+
+  def self.matches_to_calculate
+    Match.years_with_data.push('all')
   end
 end
