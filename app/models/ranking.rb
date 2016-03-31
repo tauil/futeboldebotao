@@ -4,14 +4,18 @@ class Ranking < ActiveRecord::Base
 
   belongs_to :player
 
+  scope :by_year, lambda { |year| where(year: Date.parse("#{year}-1-1")) }
+
   def self.updateit!
     Player.find_each do |player|
-      player_rank = Ranking.where(player_id: player.id)
+      Match.years_with_data.each do |year|
+        player_rank = Ranking.by_year(year).where(player_id: player.id)
 
-      if player_rank.count == 0
-        create_player_rank(player)
-      else
-        update_player_rank(player_rank.first)
+        if player_rank.count == 0
+          create_player_rank(player, year)
+        else
+          update_player_rank(player_rank.first, year)
+        end
       end
     end
     true
@@ -35,40 +39,49 @@ class Ranking < ActiveRecord::Base
 
   private
 
-  def self.create_player_rank(player)
-    self.create!( player_id: player.id,
-                  matches_count: player.matches.count,
-                  matches_won: Match.won(player.id).count,
-                  matches_draw: Match.draw(player.id).count,
-                  matches_lost: Match.lost(player.id).count,
-                  goals_pro: player.goals_pro,
-                  goals_against: player.goals_against,
-                  goals_balance: player.goals_balance,
-                  total_points: calculate_points(player.id) )
+  def self.create_player_rank(player, year)
+    self.create! attributes_for_player_rank(player, year)
   end
 
-  def self.update_player_rank(player_rank)
-    player_rank.update_attributes!( player_id: player_rank.player_id,
-                                    matches_count: player_rank.player.matches.count,
-                                    matches_won: Match.won(player_rank.player_id).count,
-                                    matches_draw: Match.draw(player_rank.player_id).count,
-                                    matches_lost: Match.lost(player_rank.player_id).count,
-                                    goals_pro: player_rank.player.goals_pro,
-                                    goals_against: player_rank.player.goals_against,
-                                    goals_balance: player_rank.player.goals_balance,
-                                    total_points: calculate_points(player_rank.player_id) )
+  def self.update_player_rank(player_rank, year)
+    player_rank.update_attributes! attributes_for_player_rank(player_rank.player, year)
   end
 
-  def self.calculate_points(player_id)
-    points_by_victory(player_id) + points_by_draw(player_id)
+  def self.attributes_for_player_rank(player, year)
+    { player_id: player.id,
+      matches_count: matches_count(player.id, year),
+      matches_won: matches_won_count(player.id, year),
+      matches_draw: matches_draw_count(player.id, year),
+      matches_lost: Match.lost(player.id).by_year(year).count,
+      goals_pro: Match.goals_pro(player.id, year),
+      goals_against: Match.goals_against(player.id, year),
+      goals_balance: Match.goals_balance(player.id, year),
+      total_points: calculate_points(player.id, year),
+      year: Date.parse("#{year}-1-1") }
   end
 
-  def self.points_by_victory(player_id)
-    Match.won(player_id).count * VICTORY_POINT_MULTIPLIER
+  def self.matches_count(player_id, year)
+    Match.by_player(player_id).by_year(year).count
   end
 
-  def self.points_by_draw(player_id)
-    Match.draw(player_id).count * DRAW_POINT_MULTIPLIER
+  def self.matches_won_count(player_id, year)
+    Match.won(player_id).by_year(year).count
+  end
+
+  def self.matches_draw_count(player_id, year)
+    Match.draw(player_id).by_year(year).count
+  end
+
+  def self.calculate_points(player_id, year)
+    points_by_victory(player_id, year) + points_by_draw(player_id, year)
+  end
+
+  def self.points_by_victory(player_id, year)
+    matches_won_count(player_id, year) * VICTORY_POINT_MULTIPLIER
+  end
+
+  def self.points_by_draw(player_id, year)
+    matches_draw_count(player_id, year) * DRAW_POINT_MULTIPLIER
   end
 
   def total_points_played

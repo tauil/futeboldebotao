@@ -1,0 +1,36 @@
+<table class="ui celled table unstackable">
+  <thead>
+    <tr>
+      <th>Posição</th>
+      <th>Time</th>
+      <th>Jogos</th>
+      <th>Vitórias</th>
+      <th>Empates</th>
+      <th>Derrotas</th>
+      <th>GP</th>
+      <th>GC</th>
+      <th>SG</th>
+      <th>Pontos</th>
+      <th>Aproveitamento</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% rankings.each_with_index do |rank, index| %>
+      <% index = index + 1 %>
+      <tr>
+        <td><%= index %></td>
+        <td><%= rank.player.team_name %> (<%= rank.player.name %>)</td>
+        <td><%= rank.matches_count %></td>
+        <td><%= rank.matches_won %> (<%= number_with_precision(rank.matches_won_percent, precision: 2) %>%)</td>
+        <td><%= rank.matches_draw %> (<%= number_with_precision(rank.matches_draw_percent, precision: 2) %>%)</td>
+        <td><%= rank.matches_lost %> (<%= number_with_precision(rank.matches_lost_percent, precision: 2) %>%)</td>
+        <td><%= rank.goals_pro %></td>
+        <td><%= rank.goals_against %></td>
+        <td><%= rank.goals_balance %></td>
+        <td><%= rank.total_points %></td>
+        <td><%= number_with_precision rank.utilization, precision: 2 %> %</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

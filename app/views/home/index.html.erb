@@ -8,46 +8,12 @@
   <section class="ui segment">
     <%= render 'matches/form' %>
     <div class="ui horizontal divider">Ou</div>
-    <p><%= link_to 'Atualizar ranking', update_ranking_path, class: 'ui primary button' %></p>
+    <p><%= link_to 'Atualizar ranking', update_ranking_path, class: 'ui primary button', disable_with: 'Atualizando...' %></p>
   </section>
 <% else %>
   <div id="results-table-container">
-    <table class="ui celled table unstackable">
-      <thead>
-        <tr>
-          <th>Posição</th>
-          <th>Time</th>
-          <th>Jogos</th>
-          <th>Vitórias</th>
-          <th>Empates</th>
-          <th>Derrotas</th>
-          <th>GP</th>
-          <th>GC</th>
-          <th>SG</th>
-          <th>Pontos</th>
-          <th>Aproveitamento</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <% @rankings.each_with_index do |rank, index| %>
-          <% index = index + 1 %>
-          <tr>
-            <td><%= index %></td>
-            <td><%= rank.player.team_name %> (<%= rank.player.name %>)</td>
-            <td><%= rank.matches_count %></td>
-            <td><%= rank.matches_won %> (<%= number_with_precision(rank.matches_won_percent, precision: 2) %>%)</td>
-            <td><%= rank.matches_draw %> (<%= number_with_precision(rank.matches_draw_percent, precision: 2) %>%)</td>
-            <td><%= rank.matches_lost %> (<%= number_with_precision(rank.matches_lost_percent, precision: 2) %>%)</td>
-            <td><%= rank.goals_pro %></td>
-            <td><%= rank.goals_against %></td>
-            <td><%= rank.goals_balance %></td>
-            <td><%= rank.total_points %></td>
-            <td><%= number_with_precision rank.utilization, precision: 2 %> %</td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+    <%= render 'home/ranking_table', rankings: @rankings_2015 %>
+    <%= render 'home/ranking_table', rankings: @rankings_2016 %>
   </div>
 
   <h2 class="ui header">Últimas partidas</h2>
@@ -57,7 +23,7 @@
     <table class="ui celled table unstackable">
       <tbody>
         <% @players_options.each do |player_name, id| %>
-          <% count = Player.matches_by_occurrence(id, match_occurred_at).count %>
+          <% count = Match.by_player_and_occurrence(id, match_occurred_at).count %>
           <% if count > 0 %>
             <tr>
               <td colspan="4"><%= player_name %></td>
