@@ -20,4 +20,18 @@ $(document).ready(function() {
   $(".icon.close").on("click", function() {
     $(this).parents(".ui.flash.message").remove();
   });
+
+  $("#trigger-tab-2015").on('click', function() {
+    $(".ui.top.attached.tabular.menu .item").removeClass('active');
+    $("#tab-2016").transition('hide');
+    $("#tab-2015").transition('show');
+    $(this).parent().addClass('active');
+  });
+
+  $("#trigger-tab-2016").on('click', function() {
+    $(".ui.top.attached.tabular.menu .item").removeClass('active');
+    $("#tab-2015").transition('hide');
+    $("#tab-2016").transition('show');
+    $(this).parent().addClass('active');
+  });
 });

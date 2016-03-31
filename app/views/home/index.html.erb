@@ -12,8 +12,14 @@
   </section>
 <% else %>
   <div id="results-table-container">
-    <%= render 'home/ranking_table', rankings: @rankings_2016 %>
-    <%= render 'home/ranking_table', rankings: @rankings_2015 %>
+    <div class="ui top attached tabular menu">
+      <div class="active item"><%= link_to '2016', 'javascrip:;', id: 'trigger-tab-2016' %></div>
+      <div class="item"><%= link_to '2015', 'javascrip:;', id: 'trigger-tab-2015' %></div>
+    </div>
+    <div class="ui bottom attached active tab segment">
+      <div id="tab-2016"><%= render 'home/ranking_table', rankings: @rankings_2016 %></div>
+      <div id="tab-2015" class="transition hidden"><%= render 'home/ranking_table', rankings: @rankings_2015 %></div>
+    </div>
   </div>
 
   <h2 class="ui header">Últimas partidas</h2>
