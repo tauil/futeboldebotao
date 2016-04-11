@@ -1,4 +1,7 @@
 class Match < ActiveRecord::Base
+
+  include Comparison
+
   belongs_to :home_player, class_name: 'Player', foreign_key: 'home_player_id'
   belongs_to :visitor_player, class_name: 'Player', foreign_key: 'visitor_player_id'
 

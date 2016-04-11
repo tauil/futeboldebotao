@@ -1,0 +1,38 @@
+<h2 class="ui header">Comparativo entre jogadores para <%= comparison_year %>.</h2>
+
+<%= form_tag comparison_path, method: :get do %>
+  <%= label_tag :year, 'Mudar período' %>
+  <%= select_tag :year, options_for_select([['2016', '2016'], ['2015', '2015'], ['Tudo', 'all']], params[:year]), onchange: 'this.form.submit();' %>
+<% end %>
+
+<section class="ui segment">
+  <% @results.each do |result| %>
+    <h4 class="ui header"><%= result[:name_with_team] %>:</h4>
+    <table class="ui celled table unstackable">
+      <thead>
+        <tr>
+          <th>Nome do oponente</th>
+          <th>Total de partidas jogadas</th>
+          <th>Vitórias</th>
+          <th>Empates</th>
+          <th>Derrotas</th>
+          <th>Gols Pró</th>
+          <th>Gols Contra</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% result[:compared_to].each do |opponent| %>
+          <tr>
+            <td><%= opponent[:name_with_team] %></td>
+            <td><%= opponent[:total] %></td>
+            <td><%= opponent[:won] %></td>
+            <td><%= opponent[:draw] %></td>
+            <td><%= opponent[:lost] %></td>
+            <td><%= opponent[:goals_pro] %></td>
+            <td><%= opponent[:goals_against] %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+</section>
