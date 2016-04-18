@@ -36,7 +36,7 @@ class HomeController < ApplicationController
       next if player.id == player2.id
       total_matches = Match.matches_for_player1_vs_player2(player.id, player2.id).by_year(year)
       matches_won = total_matches.unscoped_won(player.id)
-      matches_draw = total_matches.unscoped_draw(player.id)
+      matches_draw = total_matches.unscoped_draw
 
       result = { name_with_team: [player2.name, player2.team_name].join(' ') }
       result[:total] = total_matches.count
