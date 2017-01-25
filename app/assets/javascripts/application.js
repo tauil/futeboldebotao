@@ -23,6 +23,7 @@ $(document).ready(function() {
 
   $("#trigger-tab-2015").on('click', function() {
     $(".ui.top.attached.tabular.menu .item").removeClass('active');
+    $("#tab-2017").transition('hide');
     $("#tab-2016").transition('hide');
     $("#tab-2015").transition('show');
     $("#tab-all").transition('hide');
@@ -33,6 +34,16 @@ $(document).ready(function() {
     $(".ui.top.attached.tabular.menu .item").removeClass('active');
     $("#tab-2015").transition('hide');
     $("#tab-2016").transition('show');
+    $("#tab-2017").transition('hide');
+    $("#tab-all").transition('hide');
+    $(this).parent().addClass('active');
+  });
+
+  $("#trigger-tab-2017").on('click', function() {
+    $(".ui.top.attached.tabular.menu .item").removeClass('active');
+    $("#tab-2015").transition('hide');
+    $("#tab-2016").transition('hide');
+    $("#tab-2017").transition('show');
     $("#tab-all").transition('hide');
     $(this).parent().addClass('active');
   });
@@ -41,6 +52,7 @@ $(document).ready(function() {
     $(".ui.top.attached.tabular.menu .item").removeClass('active');
     $("#tab-2015").transition('hide');
     $("#tab-2016").transition('hide');
+    $("#tab-2017").transition('hide');
     $("#tab-all").transition('show');
     $(this).parent().addClass('active');
   });

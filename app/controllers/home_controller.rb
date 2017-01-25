@@ -3,6 +3,7 @@ class HomeController < ApplicationController
   def index
     @rankings_2015 = Ranking.by_year('2015').order('total_points DESC')
     @rankings_2016 = Ranking.by_year('2016').order('total_points DESC')
+    @rankings_2017 = Ranking.by_year('2017').order('total_points DESC')
     @rankings_all = Ranking.by_year('all').order('total_points DESC')
     @match = Match.new
     @matches_by_occurrence = Match.all.order('occurred_at DESC, id ASC').group_by(&:occurred_at)
