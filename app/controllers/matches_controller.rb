@@ -3,6 +3,8 @@ class MatchesController < ApplicationController
   respond_to :html
 
   def index
+    @matches_by_occurrence = Match.all.order('occurred_at DESC, id ASC').group_by(&:occurred_at)
+    @players_options = Player.find_each.collect {|p| [ p.name, p.id ] }
   end
 
   def show

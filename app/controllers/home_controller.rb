@@ -6,7 +6,6 @@ class HomeController < ApplicationController
     @rankings_2017 = Ranking.by_year('2017').order('total_points DESC')
     @rankings_all = Ranking.by_year('all').order('total_points DESC')
     @match = Match.new
-    @matches_by_occurrence = Match.all.order('occurred_at DESC, id ASC').group_by(&:occurred_at)
     @players_options = Player.find_each.collect {|p| [ p.name, p.id ] }
   end
 

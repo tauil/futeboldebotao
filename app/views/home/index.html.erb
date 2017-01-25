@@ -19,40 +19,4 @@
       <div id="tab-all" class="transition hidden"><%= render 'home/ranking_table', rankings: @rankings_all %></div>
     </div>
   </div>
-
-  <h2 class="ui header">Últimas partidas</h2>
-  <% @matches_by_occurrence.each do |match_occurred_at, matches| %>
-    <h3 class="ui header"><%= match_occurred_at.to_date %></h3>
-
-    <table class="ui celled table unstackable">
-      <tbody>
-        <% @players_options.each do |player_name, id| %>
-          <% count = Match.by_player_and_occurrence(id, match_occurred_at).count %>
-          <% if count > 0 %>
-            <tr>
-              <td colspan="4"><%= player_name %></td>
-              <td><%= count %> partidas jogadas</td>
-              <td><%= day_bill(count) %></td>
-            </tr>
-          <% end %>
-        <% end %>
-
-        <% matches.each_with_index do |match, index| %>
-          <% index = index + 1 %>
-          <tr>
-            <td class="center aligned"><%= index %></td>
-            <td class="right aligned"><%= match.home_player.team_name %> (<%= match.home_player.name %>)</td>
-            <td class="center aligned"><%= match.home_player_score %></td>
-            <td class="center aligned">X</td>
-            <td class="center aligned"><%= match.visitor_player_score %></td>
-            <td><%= match.visitor_player.team_name %> (<%= match.visitor_player.name %>)</td>
-            <% if show? %>
-              <td class="center aligned"><%= link_to 'Editar', edit_match_path(match), class: 'ui button' %></td>
-            <% end %>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  <% end %>
-
 <% end %>
