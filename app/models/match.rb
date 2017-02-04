@@ -2,6 +2,8 @@ class Match < ActiveRecord::Base
 
   include Comparison
 
+  VALID_YEARS = ['2015', '2016', '2017']
+
   belongs_to :home_player, class_name: 'Player', foreign_key: 'home_player_id'
   belongs_to :visitor_player, class_name: 'Player', foreign_key: 'visitor_player_id'
 

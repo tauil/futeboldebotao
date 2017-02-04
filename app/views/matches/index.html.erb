@@ -1,4 +1,5 @@
-<h2 class="ui header">Últimas partidas</h2>
+<h2 class="ui header">Últimas partidas de <%= @year %></h2>
+<p><%= @matches_by_occurrence.count %> dias de jogos.</p>
 <% @matches_by_occurrence.each do |match_occurred_at, matches| %>
   <h3 class="ui header"><%= match_occurred_at.to_date %></h3>
 

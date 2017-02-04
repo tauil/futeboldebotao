@@ -3,7 +3,8 @@ class MatchesController < ApplicationController
   respond_to :html
 
   def index
-    @matches_by_occurrence = Match.all.order('occurred_at DESC, id ASC').group_by(&:occurred_at)
+    @year = load_year
+    @matches_by_occurrence = Match.by_year(@year).order('occurred_at DESC, id ASC').group_by(&:occurred_at)
     @players_options = Player.find_each.collect {|p| [ p.name, p.id ] }
   end
 
@@ -57,5 +58,10 @@ class MatchesController < ApplicationController
 
   def match_params
     params.require(:match).permit(:home_player_id, :home_player_score, :visitor_player_id, :visitor_player_score, :occurred_at)
+  end
+
+  def load_year
+    return '2017' if params[:year].nil? || !Match::VALID_YEARS.include?(params[:year])
+    params[:year]
   end
 end
