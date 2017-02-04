@@ -2,7 +2,7 @@
 
 <%= form_tag comparison_path, method: :get do %>
   <%= label_tag :year, 'Mudar período' %>
-  <%= select_tag :year, options_for_select([['2016', '2016'], ['2015', '2015'], ['Tudo', 'all']], params[:year]), onchange: 'this.form.submit();' %>
+  <%= select_tag :year, options_for_select(@year_options, params[:year]), onchange: 'this.form.submit();' %>
 <% end %>
 
 <section class="ui segment">

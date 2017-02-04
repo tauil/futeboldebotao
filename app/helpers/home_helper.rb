@@ -6,7 +6,7 @@ module HomeHelper
   end
 
   def comparison_year
-    return '2016' if params[:year].nil?
+    return '2017' if params[:year].nil?
     return 'tudo jogado até o momento' if params[:year] == 'all'
     params[:year]
   end

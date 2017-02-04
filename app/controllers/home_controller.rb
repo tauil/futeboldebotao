@@ -12,7 +12,8 @@ class HomeController < ApplicationController
   def comparison
     @results = []
 
-    year = params[:year] || '2016'
+    year = params[:year] || '2017'
+    @year_options = [['2017', '2017'], ['2016', '2016'], ['2015', '2015'], ['Tudo', 'all']]
 
     Player.find_each do |player|
       @results.push(results_for_player(player, year))
