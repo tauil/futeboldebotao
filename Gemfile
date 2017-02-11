@@ -15,6 +15,7 @@ gem 'sdoc', '0.4.0', group: :doc
 gem 'semantic-ui-sass', '2.1.3.0'
 gem 'capistrano'
 gem 'capistrano-rails'
+gem 'unicorn'
 
 group :development, :test do
   gem 'byebug', '5.0.0'
