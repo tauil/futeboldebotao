@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.4.0'
 
-gem 'rails', '4.2.7.1'
+gem 'rails', '4.2.8.rc1'
 gem 'pg', '0.18.2'
 gem 'sass-rails', '5.0.3'
 gem 'uglifier', '~> 2.7'
@@ -13,6 +13,7 @@ gem 'jbuilder', '2.0'
 gem 'responders', '2.1.0'
 gem 'sdoc', '0.4.0', group: :doc
 gem 'semantic-ui-sass', '2.1.3.0'
+
 gem 'capistrano'
 gem 'capistrano-rails'
 gem 'unicorn'
