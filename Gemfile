@@ -13,6 +13,7 @@ gem 'jbuilder', '2.0'
 gem 'responders', '2.1.0'
 gem 'sdoc', '0.4.0', group: :doc
 gem 'semantic-ui-sass', '2.1.3.0'
+gem 'rake', '< 11.0'
 
 gem 'capistrano'
 gem 'capistrano-rails'
