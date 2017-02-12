@@ -20,8 +20,8 @@ gem 'capistrano-rails'
 gem 'unicorn'
 
 group :development, :test do
-  gem 'byebug', '5.0.0'
-  gem 'pry-byebug', '~> 3.1'
+  gem 'byebug', '9.0.6'
+  gem 'pry-byebug', '3.4.2'
   gem 'awesome_print', '~> 1.6'
   gem 'web-console', '2.2.1'
   gem 'spring', '1.3.6'
