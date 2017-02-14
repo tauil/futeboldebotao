@@ -1,7 +1,6 @@
 local: &local
   adapter: postgresql
-  template: template0
-  encoding: utf8
+  encoding: unicode
   pool: 10
   host: <%= ENV['DATABASE_HOST'] %>
   username: <%= ENV['DATABASE_USERNAME'] %>
